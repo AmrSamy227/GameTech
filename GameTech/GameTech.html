@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameHub - أفضل ألعاب مجانية</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-bg: #0f1923;
+            --secondary-bg: #1a2a3a;
+            --accent-color: #ff0000;
+            --text-color: #ffffff;
+            --card-bg: #1e2b3a;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+        
+        /* الخلفية المتغيرة */
+        .dynamic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            opacity: 0.15;
+            transition: background-image 1s ease-in-out;
+        }
+        
+        /* شريط التنقل */
+        .navbar {
+            background-color: rgba(15, 25, 35, 0.9) !important;
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--accent-color) !important;
+        }
+        
+        .nav-link {
+            color: var(--text-color) !important;
+            margin: 0 10px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: var(--accent-color) !important;
+        }
+        
+        .btn-neon {
+            background-color: var(--accent-color);
+            color: #000;
+            font-weight: bold;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .btn-neon:hover {
+            box-shadow: 0 0 15px var(--accent-color);
+            transform: translateY(-2px);
+        }
+        
+        /* القائمة الجانبية */
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            right: 0;
+            background-color: var(--secondary-bg);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            color: var(--text-color);
+            display: block;
+            transition: 0.3s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar a:hover {
+            color: var(--accent-color);
+            background-color: rgba(0, 255, 136, 0.1);
+        }
+        
+        .sidebar .close-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+        }
+        
+        /* بطاقات الألعاب */
+        .game-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 255, 136, 0.2);
+        }
+        
+        .game-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .game-card .card-body {
+            padding: 15px;
+        }
+        
+        .game-card .card-title {
+            font-weight: 700;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .game-card .card-text {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .game-card .price {
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+        
+        /* السلايدر */
+        .slider {
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .slider-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+        
+        .slider-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 20px;
+            padding-bottom: 20px;
+            scrollbar-width: none;
+        }
+        
+        .slider-container::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .slider-item {
+            flex: 0 0 auto;
+            width: 250px;
+            scroll-snap-align: start;
+        }
+        
+        /* القسم الرئيسي */
+        .main-content {
+            padding: 30px 0;
+        }
+        
+        /* الفوتر */
+        footer {
+            background-color: var(--secondary-bg);
+            padding: 30px 0;
+            margin-top: 50px;
+            border-top: 1px solid rgba(0, 255, 136, 0.2);
+        }
+        
+        .footer-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-left: 15px;
+            transition: all 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        /* زر القائمة على الموبايل */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+        }
+        
+        /* تصميم الموبايل */
+        @media (max-width: 992px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .navbar-nav {
+                display: none;
+            }
+            
+            .game-card img {
+                height: 150px;
+            }
+            
+            .slider-item {
+                width: 200px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .slider-item {
+                width: 180px;
+            }
+            
+            .game-card img {
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- الخلفية المتغيرة -->
+    <div class="dynamic-bg"></div>
+    
+    <!-- القائمة الجانبية -->
+    <div id="sidebar" class="sidebar">
+        <a href="javascript:void(0)" class="close-btn" onclick="closeSidebar()">&times;</a>
+        <a href="#"><i class="fas fa-home"></i> الرئيسية</a>
+        <a href="#"><i class="fas fa-fire"></i> الأكثر شهرة</a>
+        <a href="#"><i class="fas fa-star"></i> الأعلى تقييماً</a>
+        <a href="#"><i class="fas fa-gamepad"></i> جميع الألعاب</a>
+        <h6 class="px-3 pt-3 text-muted">التصنيفات</h6>
+        <a href="#"><i class="fas fa-running"></i> أكشن</a>
+        <a href="#"><i class="fas fa-hat-wizard"></i> مغامرات</a>
+        <a href="#"><i class="fas fa-robot"></i> RPG</a>
+        <a href="#"><i class="fas fa-car"></i> سباقات</a>
+        <a href="#"><i class="fas fa-futbol"></i> رياضة</a>
+        <a href="#"><i class="fas fa-ghost"></i> رعب</a>
+        <a href="#"><i class="fas fa-chess"></i> إستراتيجية</a>
+        <a href="#"><i class="fas fa-puzzle-piece"></i> ألغاز</a>
+    </div>
+    
+    <!-- شريط التنقل -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <button class="mobile-menu-btn me-2" onclick="openSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <a class="navbar-brand" href="#">GameHub</a>
+            
+            <div class="d-flex align-items-center">
+                <form class="d-flex me-3">
+                    <input class="form-control bg-dark text-white border-secondary" type="search" placeholder="ابحث عن لعبة...">
+                    <button class="btn btn-neon ms-2" type="submit"><i class="fas fa-search"></i></button>
+                </form>
+                <button class="btn btn-neon"><i class="fas fa-user"></i> تسجيل دخول</button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- المحتوى الرئيسي -->
+    <div class="main-content">
+        <div class="container">
+            <!-- سلايدر الألعاب المميزة -->
+            <div class="slider">
+                <div class="slider-header">
+                    <h2 class="slider-title">الألعاب المميزة</h2>
+                    <a href="#" class="text-muted">عرض الكل <i class="fas fa-arrow-left"></i></a>
+                </div>
+                <div class="slider-container" id="featuredSlider">
+                    <!-- سيتم إضافة الألعاب ديناميكياً -->
+                </div>
+            </div>
+            
+            <!-- أحدث الإصدارات -->
+            <div class="slider">
+                <div class="slider-header">
+                    <h2 class="slider-title">أحدث الإصدارات</h2>
+                    <a href="#" class="text-muted">عرض الكل <i class="fas fa-arrow-left"></i></a>
+                </div>
+                <div class="row" id="latestGames">
+                    <!-- سيتم إضافة الألعاب ديناميكياً -->
+                </div>
+            </div>
+            
+            <!-- الأكثر شهرة -->
+            <div class="slider">
+                <div class="slider-header">
+                    <h2 class="slider-title">الأكثر شهرة</h2>
+                    <a href="#" class="text-muted">عرض الكل <i class="fas fa-arrow-left"></i></a>
+                </div>
+                <div class="slider-container" id="popularSlider">
+                    <!-- سيتم إضافة الألعاب ديناميكياً -->
+                </div>
+            </div>
+            
+            <!-- جميع الألعاب -->
+            <div class="row mt-5">
+                <h2 class="mb-4" style="color: var(--accent-color);">جميع الألعاب</h2>
+                <div class="row" id="allGames">
+                    <!-- سيتم إضافة الألعاب ديناميكياً -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- الفوتر -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 style="color: var(--accent-color);">GameHub</h5>
+                    <p class="text-muted">أفضل موقع لتحميل الألعاب المجانية والمدفوعة</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <div class="footer-links">
+                        <a href="#"><i class="fas fa-home"></i> الرئيسية</a>
+                        <a href="#"><i class="fas fa-info-circle"></i> عنا</a>
+                        <a href="#"><i class="fas fa-envelope"></i> اتصل بنا</a>
+                        <a href="#"><i class="fas fa-shield-alt"></i> الخصوصية</a>
+                    </div>
+                    <div class="social-icons mt-3">
+                        <a href="#" class="text-muted me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-muted me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-muted me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-muted"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr style="border-color: rgba(255,255,255,0.1);">
+            <div class="text-center text-muted">
+                <small>© 2023 GameHub. جميع الحقوق محفوظة.</small>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // قائمة الألعاب
+        const games = [
+            { id: 1, title: "The Last of Us Part II", price: 74.08, image: "https://image.api.playstation.com/vulcan/ap/rnd/202010/0222/niMUubpU5mQz9X73xaErL0MN.png", category: "أكشن", rating: 4.8 },
+            { id: 2, title: "Destiny 2", price: 0, image: "https://image.api.playstation.com/vulcan/ap/rnd/202007/0109/TuR6jeP8Q7QaQN6uQvQAJZ1k.png", category: "RPG", rating: 4.5 },
+            { id: 3, title: "Cyberpunk 2077", price: 59.99, image: "https://image.api.playstation.com/vulcan/ap/rnd/202009/2419/TuW8G8yS5WIGbJpEyq7Th6NW.png", category: "RPG", rating: 3.9 },
+            { id: 4, title: "FIFA 23", price: 49.99, image: "https://image.api.playstation.com/vulcan/ap/rnd/202207/1210/4xJ8XB3bi888QTLZYdl7Oi0s.png", category: "رياضة", rating: 4.2 },
+            { id: 5, title: "Call of Duty: Modern Warfare II", price: 69.99, image: "https://image.api.playstation.com/vulcan/ap/rnd/202205/2401/5vQ1L5Q6W7I2e3Z2Q1Y2Q1Y2.png", category: "أكشن", rating: 4.6 },
+            { id: 6, title: "God of War Ragnarök", price: 69.99, image: "https://image.api.playstation.com/vulcan/ap/rnd/202207/1210/4xJ8XB3bi888QTLZYdl7Oi0s.png", category: "أكشن", rating: 4.9 },
+            { id: 7, title: "Horizon Forbidden West", price: 59.99, image: "https://image.api.playstation.com/vulcan/ap/rnd/202107/1210/4xJ8XB3bi888QTLZYdl7Oi0s.png", category: "مغامرات", rating: 4.7 },
+            { id: 8, title: "Elden Ring", price: 59.99, image: "https://image.api.playstation.com/vulcan/ap/rnd/202107/1210/4xJ8XB3bi888QTLZYdl7Oi0s.png", category: "RPG", rating: 4.9 },
+            { id: 9, title: "Resident Evil 4", price: 59.99, image: "https://image.api.playstation.com/vulcan/ap/rnd/202107/1210/4xJ8XB3bi888QTLZYdl7Oi0s.png", category: "رعب", rating: 4.8 },
+            { id: 10, title: "Star Wars Jedi: Survivor", price: 69.99, image: "https://image.api.playstation.com/vulcan/ap/rnd/202107/1210/4xJ8XB3bi888QTLZYdl7Oi0s.png", category: "أكشن", rating: 4.5 },
+            { id: 11, title: "Dead Space", price: 59.99, image: "https://image.api.playstation.com/vulcan/ap/rnd/202107/1210/4xJ8XB3bi888QTLZYdl7Oi0s.png", category: "رعب", rating: 4.7 },
+            { id: 12, title: "Hogwarts Legacy", price: 59.99, image: "https://image.api.playstation.com/vulcan/ap/rnd/202107/1210/4xJ8XB3bi888QTLZYdl7Oi0s.png", category: "RPG", rating: 4.6 },
+            { id: 13, title: "Gran Turismo 7", price: 69.99, image: "https://image.api.playstation.com/vulcan/ap/rnd/202107/1210/4xJ8XB3bi888QTLZYdl7Oi0s.png", category: "سباقات", rating: 4.3 },
+            { id: 14, title: "Returnal", price: 69.99, image: "https://image.api.playstation.com/vulcan/ap/rnd/202107/1210/4xJ8XB3bi888QTLZYdl7Oi0s.png", category: "أكشن", rating: 4.4 },
+            { id: 15, title: "Ratchet & Clank: Rift Apart", price: 69.99, image: "https://image.api.playstation.com/vulcan/ap/rnd/202107/1210/4xJ8XB3bi888QTLZYdl7Oi0s.png", category: "مغامرات", rating: 4.7 }
+        ];
+        
+        // خلفيات متغيرة
+        const backgrounds = [
+            "url('22000.jpg')",
+            "url('https://image.api.playstation.com/vulcan/ap/rnd/202007/0109/TuR6jeP8Q7QaQN6uQvQAJZ1k.png')",
+            "url('https://image.api.playstation.com/vulcan/ap/rnd/202009/2419/TuW8G8yS5WIGbJpEyq7Th6NW.png')",
+            "url('https://image.api.playstation.com/vulcan/ap/rnd/202205/2401/5vQ1L5Q6W7I2e3Z2Q1Y2Q1Y2.png')"
+        ];
+        
+        // تغيير الخلفية عشوائياً
+        function changeBackground() {
+            const bgElement = document.querySelector('.dynamic-bg');
+            const randomBg = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+            bgElement.style.backgroundImage = randomBg;
+        }
+        
+        // فتح وإغلاق القائمة الجانبية
+        function openSidebar() {
+            document.getElementById("sidebar").style.width = "280px";
+        }
+        
+        function closeSidebar() {
+            document.getElementById("sidebar").style.width = "0";
+        }
+        
+        // إنشاء بطاقات الألعاب
+        function createGameCard(game) {
+            return `
+                <div class="game-card">
+                    <img src="${game.image}" alt="${game.title}">
+                    <div class="card-body">
+                        <h5 class="card-title">${game.title}</h5>
+                        <p class="card-text">${game.category} <span class="float-start">${'★'.repeat(Math.floor(game.rating))}${'☆'.repeat(5 - Math.floor(game.rating))}</span></p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button class="btn btn-neon btn-sm">تنزيل</button>
+                            <span class="price">${game.price === 0 ? 'مجاني' : '$' + game.price}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // عرض الألعاب في السلايدر
+        function displaySliderGames(sliderId, gamesToShow) {
+            const slider = document.getElementById(sliderId);
+            slider.innerHTML = '';
+            
+            gamesToShow.forEach(game => {
+                const sliderItem = document.createElement('div');
+                sliderItem.className = 'slider-item';
+                sliderItem.innerHTML = createGameCard(game);
+                slider.appendChild(sliderItem);
+            });
+        }
+        
+        // عرض الألعاب في الشبكة
+        function displayGridGames(gridId, gamesToShow) {
+            const grid = document.getElementById(gridId);
+            grid.innerHTML = '';
+            
+            gamesToShow.forEach(game => {
+                const col = document.createElement('div');
+                col.className = 'col-md-3 col-sm-6 mb-4';
+                col.innerHTML = createGameCard(game);
+                grid.appendChild(col);
+            });
+        }
+        
+        // عند تحميل الصفحة
+        window.onload = function() {
+            changeBackground();
+            
+            // تغيير الخلفية كل 10 ثواني (اختياري)
+            setInterval(changeBackground, 10000);
+            
+            // عرض الألعاب المميزة (5 ألعاب عشوائية)
+            const featuredGames = [...games].sort(() => 0.5 - Math.random()).slice(0, 5);
+            displaySliderGames('featuredSlider', featuredGames);
+            
+            // عرض أحدث الإصدارات (8 ألعاب)
+            displayGridGames('latestGames', games.slice(0, 8));
+            
+            // عرض الأكثر شهرة (5 ألعاب عشوائية)
+            const popularGames = [...games].sort(() => 0.5 - Math.random()).slice(0, 5);
+            displaySliderGames('popularSlider', popularGames);
+            
+            // عرض جميع الألعاب
+            displayGridGames('allGames', games);
+        };
+    </script>
+</body>
+</html>

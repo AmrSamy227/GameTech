@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameTech</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #12161d;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        :root {
+            --primary-color: #ff2d20;
+            --dark-bg: #1c1c1c;
+            --card-bg: #2a2a2a;
+            --text-color: #ffffff;
+            --secondary-text: #b0b0b0;
+        }
+
+        .top-navbar {
+      background-color: #000;
+      padding: 10px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--text-color);
+      transition: transform 0.3s ease;
+    }
+    .logo:hover {
+      transform: scale(1.05);
+    }
+    .logo span {
+      color: var(--primary-color);
+    }
+
+    .search-bar {
+      flex: 1;
+      max-width: 500px;
+      margin: 0 20px;
+      display: flex;
+      transition: all 0.3s ease;
+    }
+    .search-bar input {
+      width: 100%;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 25px 0 0 25px;
+      background-color: #ffffff;
+      color: rgb(82, 82, 82);
+      transition: all 0.3s ease;
+    }
+    .search-bar input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--primary-color);
+    }
+    .search-bar button {
+      padding: 8px 15px;
+      border: none;
+      background-color: var(--primary-color);
+      color: white;
+      border-radius: 0 25px 25px 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .search-bar button:hover {
+      background-color: #ff1a1a;
+    }
+
+    .top-navbar .right a {
+      color: var(--text-color);
+      margin-left: 20px;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .top-navbar .right a:hover {
+      color: var(--primary-color);
+    }
+
+    .top-navbar .btn {
+      background-color: var(--primary-color);
+      border-radius: 25px;
+      padding: 8px 20px;
+      border: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    .top-navbar .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 45, 32, 0.4);
+    }
+
+    .secondary-navbar {
+      background-color: #ffffff;
+      padding: 0.8rem;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      position: sticky;
+      top: 60px;
+      z-index: 999;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    .secondary-navbar a {
+      color: rgba(139, 0, 0, 0.489);
+      text-decoration: none;
+      font-weight: bold;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    .secondary-navbar a:hover {
+      color: var(--primary-color);
+    }
+    .secondary-navbar a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: var(--primary-color);
+      transition: width 0.3s ease;
+    }
+    .secondary-navbar a:hover::after {
+      width: 100%;
+    }
+    .sidebar {
+      background-color: #111;
+      color: white;
+      width: 280px;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: -280px;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      padding-top: 80px;
+      z-index: 1050;
+      box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+    }
+    .sidebar.show {
+      left: 0;
+    }
+    .sidebar a {
+      display: block;
+      padding: 15px 25px;
+      color: var(--secondary-text);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+    }
+    .sidebar a:hover {
+      color: var(--primary-color);
+      background-color: rgba(255, 255, 255, 0.05);
+      border-left: 3px solid var(--primary-color);
+      padding-left: 30px;
+    }
+    .sidebar .search-bar {
+      padding: 15px;
+      margin-bottom: 10px;
+    }
+
+    .hamburger {
+      display: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .hamburger:hover {
+      transform: rotate(90deg);
+    }
+
+        
+        .hamburger {
+            display: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .secondary-navbar, .top-navbar .right, .top-navbar .search-bar {
+                display: none;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+        }
+        .game-title {
+            font-size: 4rem;
+            font-weight: bold;
+            color: white;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .subtitle {
+            color: #61dafb;
+            font-size: 1.5rem;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        .stat-icon {
+            width: 10px;
+            height: 10px;
+            display: inline-block;
+            border-radius: 50%;
+        }
+
+        .carousel-item img {
+            border-radius: 10px;
+            transition: transform 0.4s;
+        }
+
+        .carousel-item img:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .game-card {
+            background-color: #1e2530;
+            border-radius: 10px;
+            overflow: hidden;
+            width: 160px;
+            min-width: 160px;
+            margin-right: 16px;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: scale(1.05);
+        }
+
+        .game-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .game-card-title {
+            padding: 10px;
+            font-size: 0.9rem;
+            color: #ddd;
+            text-align: center;
+        }
+
+        .game-carousel-wrapper {
+            overflow-x: auto;
+            scroll-behavior: smooth;
+        }
+
+        .game-carousel {
+            display: flex;
+            padding: 10px 0;
+        }
+
+        .game-carousel-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .game-carousel-wrapper {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-navbar">
+        <div class="logo animate__animated animate__fadeIn">Game<span>Tech</span></div>
+        <div class="search-bar animate__animated animate__fadeIn">
+          <input type="text" placeholder="Search for a Game...">
+          <button><i class="fas fa-search"></i></button>
+        </div>
+        <div class="hamburger animate__animated animate__fadeIn" onclick="toggleSidebar()">
+          <i class="fas fa-bars"></i>
+        </div>
+        <div class="right d-flex align-items-center animate__animated animate__fadeIn">
+          <a href="Gametec.html">Home</a>
+          <a href="#">Contact us</a>
+          <a href="#">Request Games</a>
+          <a href="#" class="btn">Game Tracker</a>
+        </div>
+      </div>
+    
+      <div class="secondary-navbar animate__animated animate__fadeInDown">
+        <a href="#">Popular Games</a>
+        <a href="#">Top Rated</a>
+        <a href="#">All Games</a>
+        <div class="dropdown">
+          <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">Categories</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Adventure</a></li>
+            <li><a class="dropdown-item" href="#">RPG</a></li>
+            <li><a class="dropdown-item" href="#">Shooter</a></li>
+          </ul>
+        </div>
+        <a href="#">Latest Releases</a>
+      </div>
+    
+      <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+    
+      <div class="sidebar" id="sidebar">
+        <div class="search-bar">
+          <input type="text" placeholder="Search for a Game...">
+          <button><i class="fas fa-search"></i></button>
+        </div>
+        <a href="#"><i class="fas fa-home"></i> Home</a>
+        <a href="#"><i class="fas fa-envelope"></i> Contact us</a>
+        <a href="#"><i class="fas fa-gamepad"></i> Request Games</a>
+        <a href="#"><i class="fas fa-fire"></i> Popular</a>
+        <a href="#"><i class="fas fa-star"></i> Top Rated</a>
+        <a href="#"><i class="fas fa-list"></i> Categories</a>
+      </div>
+
+
+    <header class="position-relative">
+        <img src="10-Console-Games-That-Are-10-Hours-Too-long.avif" class="w-100" style="height: 250px; object-fit: cover; filter: brightness(0.3);" alt="Game Background">
+        
+    </header>
+
+    <main class="container py-5">
+        <h1 class="game-title">GameTech</h1>
+        <h2 class="subtitle mb-4">Discover, collect, analyze your games</h2>
+
+        <div class="row text-white mb-4">
+            <div class="col-6 col-md-2">
+                <div><span class="stat-icon bg-danger"></span> Played</div>
+                <strong>35.7M</strong>
+            </div>
+            <div class="col-6 col-md-2">
+                <div><span class="stat-icon bg-success"></span> Games</div>
+                <strong>228K</strong>
+            </div>
+            <div class="col-6 col-md-2">
+                <div><span class="stat-icon bg-primary"></span> Ratings</div>
+                <strong>20.9M</strong>
+            </div>
+            <div class="col-6 col-md-2">
+                <div><span class="stat-icon bg-warning"></span> Reviews</div>
+                <strong>2.51M</strong>
+            </div>
+            <div class="col-6 col-md-2">
+                <div><span class="stat-icon bg-danger"></span> Lists</div>
+                <strong>441K</strong>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <button class="btn btn-danger me-2">Create a free account</button>
+            <span>or <strong>log in</strong> if you have an account</span>
+        </div>
+
+        <div class="container my-5">
+            <h5 class="mb-3">Recently trending</h5>
+            <div class="game-carousel-wrapper" id="carouselScroll">
+                <div class="game-carousel">
+        
+                    <div class="game-card">
+                        <img src="https://storage.googleapis.com/a1aa/image/50c55829-21d7-4d0e-8876-5246249cd014.jpg" alt="R.E.P.O.">
+                        <div class="game-card-title">R.E.P.O.</div>
+                    </div>
+        
+                    <div class="game-card">
+                        <img src="https://storage.googleapis.com/a1aa/image/10a00095-1505-43cf-b965-50fa97c0894b.jpg" alt="Dream BBQ">
+                        <div class="game-card-title">Dream BBQ</div>
+                    </div>
+        
+                    <div class="game-card">
+                        <img src="https://storage.googleapis.com/a1aa/image/143e5a83-eb99-495c-aa16-5c6cc95bf0ef.jpg" alt="Split Fiction">
+                        <div class="game-card-title">Split Fiction</div>
+                    </div>
+        
+                    <div class="game-card">
+                        <img src="https://storage.googleapis.com/a1aa/image/a972190e-5543-4075-0830-02f2bed83428.jpg" alt="Balatro">
+                        <div class="game-card-title">Balatro</div>
+                    </div>
+        
+                    <div class="game-card">
+                        <img src="https://storage.googleapis.com/a1aa/image/f59d9409-cd13-49e7-ece2-2fa7c38c6ecc.jpg" alt="Monster Hunter Wilds">
+                        <div class="game-card-title">Monster Hunter Wilds</div>
+                    </div>
+        
+                    <div class="game-card">
+                        <img src="https://storage.googleapis.com/a1aa/image/ed4115f4-5be9-43d9-f0db-4253d0002a55.jpg" alt="Marvel Rivals">
+                        <div class="game-card-title">Marvel Rivals</div>
+                    </div>
+        
+                </div>
+            </div>
+        </div>
+        
+       <!-- What is Backloggd Section -->
+<section class="container mt-5 text-white">
+    <div class="row align-items-center mb-5">
+      <div class="col-md-6">
+        <h2 class="fw-bold">What is GameTracker?</h2>
+        <p class="text-white">
+          GameTracker is a place to virtually track your game collection. Keep your backlog updated, rate the games you've played and add those upcoming to your wishlist. Share your gaming journey with your friends by following each other to keep up-to-date on your latest play sessions.
+        </p>
+      </div>
+      <div class="col-md-6 text-center">
+        <img src="home-demo-collection.jpg" class="img-fluid rounded" alt="Game collection screenshot" />
+      </div>
+    </div>
+  
+    <div class="row align-items-center mb-5">
+      <div class="col-md-6 order-md-2">
+        <h4 class="fw-bold">Track your personal game collection</h4>
+        <p class="text-white">
+          Log any and every game you've played, are currently playing, and want to play. Be as detailed as you want with features such as time tracking, daily journaling, platform ownership and more.
+        </p>
+      </div>
+      <div class="col-md-6 order-md-1 text-center">
+        <img src="home-demo-reviews.jpg" class="img-fluid rounded" alt="Game review screenshot" />
+      </div>
+    </div>
+  </section>
+  
+  <!-- Popular Lists Section -->
+  <section class="container mb-5">
+    <h5 class="text-white mb-3">Popular lists</h5>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="bg-dark rounded p-2 h-100">
+          <div class="d-flex overflow-auto">
+            <img src="https://upload.wikimedia.org/wikipedia/en/6/6a/Pokemon_Omega_Ruby_boxart.png" class="img-fluid me-2" style="height: 100px;">
+            <img src="https://upload.wikimedia.org/wikipedia/en/7/7b/Pokemon_X_box_art.png" class="img-fluid me-2" style="height: 100px;">
+            <img src="https://upload.wikimedia.org/wikipedia/en/e/e2/Pokemon_Emerald_Box.jpg" class="img-fluid me-2" style="height: 100px;">
+          </div>
+          <p class="text-white mt-2 mb-0 fw-bold">MY pokemon teams (that I recall)</p>
+          <p class="text-muted mb-0 small">by Saberblade | 14 Games</p>
+        </div>
+      </div>
+  
+      <div class="col-md-4">
+        <div class="bg-dark rounded p-2 h-100">
+          <div class="d-flex overflow-auto">
+            <img src="https://upload.wikimedia.org/wikipedia/en/7/7e/Resident_Evil_5_box_art.png" class="img-fluid me-2" style="height: 100px;">
+            <img src="https://upload.wikimedia.org/wikipedia/en/5/5f/Sekiro_art.jpg" class="img-fluid me-2" style="height: 100px;">
+            <img src="https://upload.wikimedia.org/wikipedia/en/0/02/Rome_Total_War_cover.png" class="img-fluid me-2" style="height: 100px;">
+          </div>
+          <p class="text-white mt-2 mb-0 fw-bold">Games I need to get around to making a review for</p>
+          <p class="text-muted mb-0 small">by LobbyDob | 5 Games</p>
+        </div>
+      </div>
+  
+      <div class="col-md-4">
+        <div class="bg-dark rounded p-2 h-100">
+          <div class="d-flex overflow-auto">
+            <img src="https://upload.wikimedia.org/wikipedia/en/0/08/Disco_Elysium_cover_art.jpg" class="img-fluid me-2" style="height: 100px;">
+            <img src="https://upload.wikimedia.org/wikipedia/en/f/f0/Persona_3_FES_cover.jpg" class="img-fluid me-2" style="height: 100px;">
+          </div>
+          <p class="text-white mt-2 mb-0 fw-bold">Favourite Game Meme?</p>
+          <p class="text-muted mb-0 small">by TabletopRPGFan | 25 Games</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+    </main>
+
+ <script>
+            // Drag scroll with mouse
+            const scrollContainer = document.getElementById('carouselScroll');
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+        
+            scrollContainer.addEventListener('mousedown', (e) => {
+                isDown = true;
+                scrollContainer.classList.add('active');
+                startX = e.pageX - scrollContainer.offsetLeft;
+                scrollLeft = scrollContainer.scrollLeft;
+            });
+        
+            scrollContainer.addEventListener('mouseleave', () => {
+                isDown = false;
+                scrollContainer.classList.remove('active');
+            });
+        
+            scrollContainer.addEventListener('mouseup', () => {
+                isDown = false;
+                scrollContainer.classList.remove('active');
+            });
+        
+            scrollContainer.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - scrollContainer.offsetLeft;
+                const walk = (x - startX) * 2; // scroll-fastness
+                scrollContainer.scrollLeft = scrollLeft - walk;
+            });
+        </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameTech - Bully: Scholarship Edition</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <!-- Lightbox CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff2d20;
+            --dark-bg: #1c1c1c;
+            --card-bg: #2a2a2a;
+            --text-color: #ffffff;
+            --secondary-text: #b0b0b0;
+            --steam-blue: #1b2838;
+            --steam-light-blue: #f46666;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+        }
+        
+        .top-navbar {
+            background-color: #000;
+            padding: 10px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text-color);
+            transition: transform 0.3s ease;
+        }
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        .logo span {
+            color: var(--primary-color);
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 20px;
+            display: flex;
+            transition: all 0.3s ease;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 25px 0 0 25px;
+            background-color: #ffffff;
+            color: rgb(82, 82, 82);
+            transition: all 0.3s ease;
+        }
+        .search-bar input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+        .search-bar button {
+            padding: 8px 15px;
+            border: none;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 0 25px 25px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .search-bar button:hover {
+            background-color: #ff1a1a;
+        }
+
+        .top-navbar .right a {
+            color: var(--text-color);
+            margin-left: 20px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .top-navbar .right a:hover {
+            color: var(--primary-color);
+        }
+
+        .top-navbar .btn {
+            background-color: var(--primary-color);
+            border-radius: 25px;
+            padding: 8px 20px;
+            border: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .top-navbar .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 45, 32, 0.4);
+        }
+
+        .secondary-navbar {
+            background-color: #ffffff;
+            padding: 0.8rem;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            position: sticky;
+            top: 60px;
+            z-index: 999;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .secondary-navbar a {
+            color: rgba(139, 0, 0, 0.489);
+            text-decoration: none;
+            font-weight: bold;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .secondary-navbar a:hover {
+            color: var(--primary-color);
+        }
+        .secondary-navbar a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+        .secondary-navbar a:hover::after {
+            width: 100%;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background-color: #111;
+            color: white;
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: -280px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            padding-top: 80px;
+            z-index: 1050;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+        }
+        .sidebar.show {
+            left: 0;
+        }
+        .sidebar a {
+            display: block;
+            padding: 15px 25px;
+            color: var(--secondary-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        .sidebar a:hover {
+            color: var(--primary-color);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--primary-color);
+            padding-left: 30px;
+        }
+        .sidebar .search-bar {
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .hamburger {
+            display: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .hamburger:hover {
+            transform: rotate(90deg);
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1040;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Game Header */
+        .game-header {
+            padding: 60px 20px 40px;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') no-repeat center center;
+            background-size: cover;
+            position: relative;
+        }
+        
+        .game-title {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--text-color);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .game-subtitle {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            color: var(--secondary-text);
+            line-height: 1.6;
+        }
+        
+        .game-badge {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 0 5px 10px;
+            font-size: 0.9rem;
+        }
+        
+        .game-price {
+            margin: 20px 0;
+            font-size: 1.5rem;
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: var(--secondary-text);
+            margin-right: 10px;
+        }
+        
+        .discounted-price {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .discount {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+        
+        .download-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+        }
+        
+        .download-btn:hover {
+            background-color: #d40000;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 45, 32, 0.4);
+        }
+        
+        .game-info-section {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        .game-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+        
+        /* Carousel */
+        .screenshots-carousel {
+            margin: 40px 0;
+            background-color: #111;
+            padding: 30px;
+            border-radius: 10px;
+        }
+        
+        .carousel-item img {
+            border-radius: 5px;
+            max-height: 500px;
+            object-fit: contain;
+        }
+        
+        .carousel-control-prev, .carousel-control-next {
+            width: 5%;
+        }
+        
+        .carousel-indicators button {
+            background-color: var(--primary-color);
+        }
+        
+        /* System Requirements */
+        .requirements-section {
+            background-color: #11111100;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 40px 0;
+        }
+        
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .requirements-title {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .requirements-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .requirements-list li {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .requirements-list strong {
+            color: var(--primary-color);
+        }
+        
+        /* Trailer Section */
+        .trailer-section {
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .trailer-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: #000;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .trailer-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            background-color: transparent;
+            padding-right: 36vw;
+            font-size: 0.9rem;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .breadcrumb-item a {
+            color: var(--steam-light-blue);
+            text-decoration: none;
+        }
+        
+        .breadcrumb-item.active {
+            color: var(--secondary-text);
+        }
+        
+        .breadcrumb-item+.breadcrumb-item::before {
+            color: var(--secondary-text);
+            content: ">";
+        }
+        
+        /* Media Gallery */
+        .main-media {
+            width: 100%;
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            background: #000;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        
+        .main-media iframe,
+        .main-media img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .thumbnail-carousel {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .thumbnail-track {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding-bottom: 10px;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .thumbnail-track::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .thumbnail-track::-webkit-scrollbar-track {
+            background: #2a2a2a;
+            border-radius: 3px;
+        }
+        
+        .thumbnail-track::-webkit-scrollbar-thumb {
+            background: #f46666;
+            border-radius: 3px;
+        }
+        
+        .media-thumbnail {
+            flex: 0 0 calc(25% - 8px);
+            cursor: pointer;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.2s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .media-thumbnail {
+                flex: 0 0 calc(33.333% - 7px);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .media-thumbnail {
+                flex: 0 0 calc(50% - 5px);
+            }
+        }
+        
+        .media-thumbnail:hover {
+            transform: scale(1.03);
+        }
+        
+        .media-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            aspect-ratio: 16/9;
+        }
+        
+        .media-thumbnail.active {
+            box-shadow: 0 0 0 2px var(--steam-light-blue);
+        }
+        
+        .media-thumbnail::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3);
+            transition: background 0.2s ease;
+        }
+        
+        .media-thumbnail:hover::after {
+            background: rgba(0,0,0,0.1);
+        }
+        
+        .media-thumbnail.active::after {
+            background: rgba(244, 102, 102, 0.3);
+        }
+        
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 24px;
+            z-index: 1;
+        }
+        
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+            border: none;
+            color: white;
+        }
+        
+        .carousel-nav:hover {
+            background: rgba(244, 102, 102, 0.8);
+        }
+        
+        .carousel-prev {
+            left: 10px;
+        }
+        
+        .carousel-next {
+            right: 10px;
+        }
+        
+        .video-info {
+            font-size: 0.8rem;
+            color: var(--secondary-text);
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .steam-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .steam-btn {
+            background: none;
+            border: none;
+            color: var(--secondary-text);
+            cursor: pointer;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .steam-btn:hover {
+            color: var(--steam-light-blue);
+        }
+        
+        .signin-notice {
+            color: var(--secondary-text);
+            font-size: 0.9rem;
+            margin-left: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .signin-notice {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+        
+        .screenshots-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+        
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+        
+        .screenshot-thumbnail {
+            cursor: pointer;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            border-radius: 4px;
+            transition: transform 0.2s ease;
+        }
+        
+        .screenshot-thumbnail:hover {
+            transform: scale(1.02);
+        }
+        
+        .screenshot-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .screenshot-thumbnail:hover img {
+            transform: scale(1.05);
+        }
+        
+        /* Game Carousel */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .game-carousel {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        
+        .game-carousel-inner {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding-bottom: 10px;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .game-carousel-inner::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .game-carousel-inner::-webkit-scrollbar-track {
+            background: #2a2a2a;
+            border-radius: 3px;
+        }
+        
+        .game-carousel-inner::-webkit-scrollbar-thumb {
+            background: #f46666;
+            border-radius: 3px;
+        }
+        
+        .game-card {
+            flex: 0 0 200px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .game-card-img {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        
+        .game-card-title {
+            font-size: 0.9rem;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .see-all {
+            color: var(--steam-light-blue);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .see-all:hover {
+            color: white;
+        }
+        
+        /* Lightbox customizations */
+        .lightbox .lb-image {
+            border: 4px solid white;
+            border-radius: 4px;
+        }
+        
+        .lightbox .lb-nav a.lb-prev,
+        .lightbox .lb-nav a.lb-next {
+            opacity: 1;
+        }
+        
+        .lightbox .lb-close {
+            opacity: 1;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .game-title {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .secondary-navbar, .top-navbar .right, .top-navbar .search-bar {
+                display: none;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .game-title {
+                font-size: 2rem;
+            }
+            
+            .game-subtitle {
+                font-size: 1rem;
+            }
+            
+            .game-price {
+                font-size: 1.2rem;
+            }
+            
+            .download-btn {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .game-title {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+        :root {
+            --primary-color: #ff2d20;
+            --dark-bg: #1c1c1c;
+            --card-bg: #2a2a2a;
+            --text-color: #ffffff;
+            --secondary-text: #b0b0b0;
+            --steam-blue: #1b2838;
+            --steam-light-blue: #f46666;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            padding-bottom: 40px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .section-title {
+            font-size: 1.25rem;
+            color: var(--text-color);
+            margin: 0;
+        }
+        
+        .see-all {
+            color: var(--steam-light-blue);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .see-all:hover {
+            color: white;
+        }
+        
+        .game-carousel {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        
+        .game-carousel-inner {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding-bottom: 10px;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .game-carousel-inner::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .game-carousel-inner::-webkit-scrollbar-track {
+            background: #2a2a2a;
+            border-radius: 3px;
+        }
+        
+        .game-carousel-inner::-webkit-scrollbar-thumb {
+            background: #f46666;
+            border-radius: 3px;
+        }
+        
+        .game-card {
+            flex: 0 0 200px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .game-card-img {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        
+        .game-card-title {
+            font-size: 0.9rem;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 32px;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+            border: none;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        
+        .game-carousel:hover .carousel-nav {
+            opacity: 1;
+        }
+        
+        .carousel-nav:hover {
+            background: rgba(244, 102, 102, 0.8);
+        }
+        
+        .carousel-prev {
+            left: -16px;
+        }
+        
+        .carousel-next {
+            right: -16px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader"></div>
+    </div>
+
+    <div class="top-navbar">
+        <div class="logo animate__animated animate__fadeIn">Game<span>Tech</span></div>
+        <div class="search-bar animate__animated animate__fadeIn">
+          <input type="text" placeholder="Search for a Game...">
+          <button><i class="fas fa-search"></i></button>
+        </div>
+        <div class="hamburger animate__animated animate__fadeIn" onclick="toggleSidebar()">
+          <i class="fas fa-bars"></i>
+        </div>
+        <div class="right d-flex align-items-center animate__animated animate__fadeIn">
+          <a href="Gametec.html">Home</a>
+          <a href="#">Contact us</a>
+          <a href="#">Request Games</a>
+          <a href="#" class="btn">Game Tracker</a>
+        </div>
+      </div>
+    
+      <div class="secondary-navbar animate__animated animate__fadeInDown">
+        <a href="#">Popular Games</a>
+        <a href="#">Top Rated</a>
+        <a href="#">All Games</a>
+        <div class="dropdown">
+          <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">Categories</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Adventure</a></li>
+            <li><a class="dropdown-item" href="#">RPG</a></li>
+            <li><a class="dropdown-item" href="#">Shooter</a></li>
+          </ul>
+        </div>
+        <a href="#">Latest Releases</a>
+      </div>
+    
+      <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+    
+      <div class="sidebar" id="sidebar">
+        <div class="search-bar">
+          <input type="text" placeholder="Search for a Game...">
+          <button><i class="fas fa-search"></i></button>
+        </div>
+        <a href="#"><i class="fas fa-home"></i> Home</a>
+        <a href="#"><i class="fas fa-envelope"></i> Contact us</a>
+        <a href="#"><i class="fas fa-gamepad"></i> Request Games</a>
+        <a href="#"><i class="fas fa-fire"></i> Popular</a>
+        <a href="#"><i class="fas fa-star"></i> Top Rated</a>
+        <a href="#"><i class="fas fa-list"></i> Categories</a>
+      </div>
+
+    <!-- Game Header -->
+    <div class="game-header" style="text-align: left; padding: 40px; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('bully\ bg.webp') no-repeat center center; background-size: cover;">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-center">
+                <li class="breadcrumb-item"><a href="#">All Games</a></li>
+                <li class="breadcrumb-item"><a href="#">Adventure Games</a></li>
+                <li class="breadcrumb-item"><a href="#">Rockstar Games Franchise</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Bully: Scholarship Edition</li>
+            </ol>
+        </nav>
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; gap: 30px; align-items: flex-start;">
+            <!-- Game Poster -->
+            <div style="flex: 0 0 300px;">
+                <img src="bully poster.jpg" 
+                     alt="Bully: Scholarship Edition" 
+                     style="width: 100%; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+            </div>
+            
+            <!-- Game Info -->
+            <div style="flex: 1;">
+                <h1 class="game-title" style="font-size: 2.5rem; margin-bottom: 5px;">Bully: Scholarship Edition</h1>
+                <p style="color: var(--secondary-text); margin-bottom: 20px;">Rockstar Games - Take-Two Interactive</p>
+                
+                <div style="background-color: #333; color: white; padding: 5px 10px; border-radius: 3px; display: inline-block; margin-bottom: 20px; font-size: 0.9rem;">
+                    PC - Xbox 360 - Wii
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <button class="download-btn" style="background-color: var(--primary-color); border: none; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; margin-right: 10px;">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                    <button class="download-btn" style="background-color: #333; border: none; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold;">
+                        <i class="fas fa-play"></i> Play with GAME PASS
+                    </button>
+                </div>
+                
+                <div style="color: var(--secondary-text); font-size: 0.9rem; line-height: 1.6; max-width: 800px;">
+                    <p>Includes in-app purchases. Parental controls and periodic compensation.</p>
+                    <p>When explicit language is used, user interaction is reduced. Operations within the language.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><hr><br>
+
+    <!-- Screenshots & Trailer Section -->
+    <div class="container py-4">
+        <h1 class="section-title">Bully: Scholarship Edition</h1><br>
+        
+        <!-- Media Gallery -->
+        <div class="main-media" id="main-media">
+            <iframe src="https://www.youtube.com/embed/OImxuxMcdjw" 
+                    title="Bully: Scholarship Edition Trailer" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen></iframe>
+        </div>
+        
+        <!-- Thumbnail Carousel -->
+        <div class="thumbnail-carousel">
+            <button class="carousel-nav carousel-prev" onclick="scrollThumbnails(-1)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="carousel-nav carousel-next" onclick="scrollThumbnails(1)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            
+            <div class="thumbnail-track" id="thumbnailTrack">
+                <!-- Video Thumbnail -->
+                <div class="media-thumbnail active" onclick="changeMedia('video1', 'https:www.youtube.com/embed/OImxuxMcdjw', true)">
+                    <img src="bully bg.webp" alt="Trailer thumbnail">
+                    <div class="play-icon"><i class="fas fa-play"></i></div>
+                </div>
+                
+                <!-- Screenshot Thumbnails -->
+                <div class="media-thumbnail" onclick="changeMedia('image1', 'https://cdn.cloudflare.steamstatic.com/steam/apps/12200/ss_7a8b1a1a5b3e2d1b9b8b7b6b5b4b3b2b1b0b9b8.600x338.jpg', false)">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/12200/ss_7a8b1a1a5b3e2d1b9b8b7b6b5b4b3b2b1b0b9b8.600x338.jpg" alt="Screenshot 1">
+                </div>
+                <div class="media-thumbnail" onclick="changeMedia('image2', 'https://cdn.cloudflare.steamstatic.com/steam/apps/12200/ss_1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1.600x338.jpg', false)">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/12200/ss_1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1.600x338.jpg" alt="Screenshot 2">
+                </div>
+                <div class="media-thumbnail" onclick="changeMedia('image3', 'https://cdn.cloudflare.steamstatic.com/steam/apps/12200/ss_2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2.600x338.jpg', false)">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/12200/ss_2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2.600x338.jpg" alt="Screenshot 3">
+                </div>
+                <div class="media-thumbnail" onclick="changeMedia('image4', 'https://cdn.cloudflare.steamstatic.com/steam/apps/12200/ss_3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3.600x338.jpg', false)">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/12200/ss_3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3.600x338.jpg" alt="Screenshot 4">
+                </div>
+                <div class="media-thumbnail" onclick="changeMedia('image5', 'https://cdn.cloudflare.steamstatic.com/steam/apps/12200/ss_4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4.600x338.jpg', false)">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/12200/ss_4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4.600x338.jpg" alt="Screenshot 5">
+                </div>
+                <div class="media-thumbnail" onclick="changeMedia('image6', 'https://cdn.cloudflare.steamstatic.com/steam/apps/12200/ss_5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5.600x338.jpg', false)">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/12200/ss_5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5.600x338.jpg" alt="Screenshot 6">
+                </div>
+                <div class="media-thumbnail" onclick="changeMedia('image7', 'https://cdn.cloudflare.steamstatic.com/steam/apps/12200/ss_6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6.600x338.jpg', false)">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/12200/ss_6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6.600x338.jpg" alt="Screenshot 7">
+                </div>
+                <div class="media-thumbnail" onclick="changeMedia('image8', 'https://cdn.cloudflare.steamstatic.com/steam/apps/12200/ss_7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7.600x338.jpg', false)">
+                    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/12200/ss_7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7.600x338.jpg" alt="Screenshot 8">
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-info">
+            <span>Autoplay videos</span>
+            <span>0.07 / 0.57</span>
+        </div>
+
+        <!-- Steam-style Action Row -->
+        <div class="steam-actions">
+            <button class="steam-btn">
+                <i class="far fa-heart"></i> Add to Wishlist
+            </button>
+            <button class="steam-btn">
+                <i class="far fa-bell"></i> Follow
+            </button>
+            <button class="steam-btn">
+                <i class="far fa-eye-slash"></i> Ignore
+            </button>
+            <div class="signin-notice">
+                Sign in to add this item to your wishlist, follow it, or mark it as ignored
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Info Section -->
+    <div class="game-info-section">
+        <h2 class="section-title">About The Game</h2>
+        <p class="game-description">
+            Bully: Scholarship Edition takes you back to school as Jimmy Hopkins, a troublesome teenager who's been expelled from every school he's ever attended. 
+            Now stuck at Bullworth Academy, Jimmy must navigate the social hierarchy of the school while dealing with bullies, teachers, and the local townies.
+        </p>
+        <p class="game-description">
+            The Scholarship Edition features improved graphics, additional missions, new classes, and multiplayer modes. Experience the open-world gameplay that 
+            Rockstar is famous for, but set in the unique environment of a boarding school. Attend classes, play pranks, defend yourself against bullies, and 
+            explore the town of Bullworth in this critically acclaimed title.
+        </p>
+        
+        <!-- System Requirements -->
+        <h2 class="section-title">System Requirements</h2>
+        <div class="requirements-section">
+            <div class="requirements-grid">
+                <div>
+                    <h3 class="requirements-title">Minimum Requirements</h3>
+                    <ul class="requirements-list">
+                        <li><strong>OS:</strong> Windows XP/Vista</li>
+                        <li><strong>Processor:</strong> Intel Pentium 4 1.8GHz or AMD Athlon XP 1800+</li>
+                        <li><strong>Memory:</strong> 512 MB RAM</li>
+                        <li><strong>Graphics:</strong> NVIDIA GeForce 6200 or ATI Radeon Xpress 1200</li>
+                        <li><strong>Storage:</strong> 4.7 GB available space</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="requirements-title">Recommended Requirements</h3>
+                    <ul class="requirements-list">
+                        <li><strong>OS:</strong> Windows XP/Vista</li>
+                        <li><strong>Processor:</strong> Intel Core 2 Duo or AMD Athlon 64 X2</li>
+                        <li><strong>Memory:</strong> 1 GB RAM</li>
+                        <li><strong>Graphics:</strong> NVIDIA GeForce 8600 or ATI Radeon HD 2600</li>
+                        <li><strong>Storage:</strong> 4.7 GB available space</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- More From Rockstar Games -->
+    <div class="container py-4">
+        <div class="game-carousel">
+            <div class="section-header">
+                <h2 class="section-title">MORE FROM ROCKSTAR GAMES</h2>
+                <a href="#" class="see-all">See All</a>
+            </div>
+            
+            <button class="carousel-nav carousel-prev" onclick="scrollCarousel(this.parentElement, -1)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="carousel-nav carousel-next" onclick="scrollCarousel(this.parentElement, 1)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            
+            <div class="game-carousel-inner">
+                <div class="game-card">
+                    <img src="gtav.jpg" 
+                         class="game-card-img" 
+                         alt="Grand Theft Auto V">
+                    <h3 class="game-card-title">Grand Theft Auto V</h3>
+                </div>
+                <div class="game-card">
+                    <img src="rdr bg.png" 
+                         class="game-card-img" 
+                         alt="Red Dead Redemption">
+                    <h3 class="game-card-title">Red Dead Redemption</h3>
+                </div>
+                <div class="game-card">
+                    <img src="bully.jpg" 
+                         class="game-card-img" 
+                         alt="Bully">
+                    <h3 class="game-card-title">Bully</h3>
+                </div>
+                <div class="game-card">
+                    <img src="max 3.jpg" 
+                         class="game-card-img" 
+                         alt="Max Payne 3">
+                    <h3 class="game-card-title">Max Payne 3</h3>
+                </div>
+                <div class="game-card">
+                    <img src="LA noire.jpg" 
+                         class="game-card-img" 
+                         alt="LA Noire">
+                    <h3 class="game-card-title">LA Noire</h3>
+                </div>
+                <div class="game-card">
+                    <img src="gta iv.jpg" 
+                         class="game-card-img" 
+                         alt="Grand Theft Auto IV">
+                    <h3 class="game-card-title">Grand Theft Auto IV</h3>
+                </div>
+            </div>
+        </div>
+        
+        <!-- More Like This -->
+        <div class="game-carousel">
+            <div class="section-header">
+                <h2 class="section-title">MORE LIKE THIS</h2>
+                <a href="#" class="see-all">See All</a>
+            </div>
+            
+            <button class="carousel-nav carousel-prev" onclick="scrollCarousel(this.parentElement, -1)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="carousel-nav carousel-next" onclick="scrollCarousel(this.parentElement, 1)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            
+            <div class="game-carousel-inner">
+                <div class="game-card">
+                    <img src="the witcher 3.jpg" 
+                         class="game-card-img" 
+                         alt="The Witcher 3">
+                    <h3 class="game-card-title">The Witcher 3</h3>
+                </div>
+                <div class="game-card">
+                    <img src="AS VA.jpg" 
+                         class="game-card-img" 
+                         alt="Assassin's Creed Valhalla">
+                    <h3 class="game-card-title">Assassin's Creed Valhalla</h3>
+                </div>
+                <div class="game-card">
+                    <img src="Ghost of Tsushima.jpg" 
+                         class="game-card-img" 
+                         alt="Ghost of Tsushima">
+                    <h3 class="game-card-title">Ghost of Tsushima</h3>
+                </div>
+                <div class="game-card">
+                    <img src="Days gone.jpg" 
+                         class="game-card-img" 
+                         alt="Days Gone">
+                    <h3 class="game-card-title">Days Gone</h3>
+                </div>
+                <div class="game-card">
+                    <img src="horizon.jpg" 
+                         class="game-card-img" 
+                         alt="Horizon Zero Dawn">
+                    <h3 class="game-card-title">Horizon Zero Dawn</h3>
+                </div>
+                <div class="game-card">
+                    <img src="cyber.jpg" 
+                         class="game-card-img" 
+                         alt="Cyberpunk 2077">
+                    <h3 class="game-card-title">Cyberpunk 2077</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Lightbox JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+    <script>
+        // Toggle sidebar function
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('show');
+            document.getElementById('overlay').classList.toggle('show');
+            document.body.classList.toggle('no-scroll');
+        }
+
+        // Initialize the page when loaded
+        window.addEventListener('DOMContentLoaded', function() {
+            // Hide loading screen after 1 second
+            setTimeout(() => {
+                document.getElementById('loading-screen').classList.add('fade-out');
+                setTimeout(() => {
+                    document.getElementById('loading-screen').style.display = 'none';
+                }, 500);
+            }, 1000);
+        });
+
+        
+         // Change main media when clicking thumbnails
+         function changeMedia(id, src, isVideo) {
+            // Remove active class from all thumbnails
+            document.querySelectorAll('.media-thumbnail').forEach(thumb => {
+                thumb.classList.remove('active');
+            });
+            
+            // Add active class to clicked thumbnail
+            event.currentTarget.classList.add('active');
+            
+            const mainMedia = document.getElementById('main-media');
+            if (isVideo) {
+                mainMedia.innerHTML = `<iframe src="${src}?autoplay=1" title="Red Dead Redemption 2 Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            } else {
+                mainMedia.innerHTML = `<img src="${src}" alt="Red Dead Redemption 2 Screenshot">`;
+            }
+        }
+        
+        // Thumbnail carousel navigation
+        function scrollThumbnails(direction) {
+            const track = document.getElementById('thumbnailTrack');
+            const scrollAmount = track.offsetWidth * 0.8 * direction;
+            track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+        
+        // Initialize lightbox with custom options
+        lightbox.option({
+            'resizeDuration': 200,
+            'wrapAround': true,
+            'showImageNumberLabel': false,
+            'positionFromTop': 100
+        });
+
+                // Carousel navigation
+                function scrollCarousel(carousel, direction) {
+            const inner = carousel.querySelector('.game-carousel-inner');
+            const scrollAmount = inner.offsetWidth * 0.8 * direction;
+            inner.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+        
+        // Show/hide nav buttons based on scroll position
+        document.querySelectorAll('.game-carousel-inner').forEach(carousel => {
+            carousel.addEventListener('scroll', function() {
+                const prevBtn = this.parentElement.querySelector('.carousel-prev');
+                const nextBtn = this.parentElement.querySelector('.carousel-next');
+                
+                prevBtn.style.display = this.scrollLeft > 0 ? 'flex' : 'none';
+                nextBtn.style.display = this.scrollLeft < (this.scrollWidth - this.offsetWidth) ? 'flex' : 'none';
+            });
+        });
+
+    </script>
+</body>
+</html>

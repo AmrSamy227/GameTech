@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameTech</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+            --primary-color: #ff2d20;
+            --dark-bg: #1c1c1c;
+            --card-bg: #2a2a2a;
+            --text-color: #ffffff;
+            --secondary-text: #b0b0b0;
+        }
+
+    body {
+      margin: 0;
+      background-color: var(--dark-bg);
+      color: var(--text-color);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .top-navbar {
+      background-color: #000;
+      padding: 10px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--text-color);
+      transition: transform 0.3s ease;
+    }
+    .logo:hover {
+      transform: scale(1.05);
+    }
+    .logo span {
+      color: var(--primary-color);
+    }
+
+    .search-bar {
+      flex: 1;
+      max-width: 500px;
+      margin: 0 20px;
+      display: flex;
+      transition: all 0.3s ease;
+    }
+    .search-bar input {
+      width: 100%;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 25px 0 0 25px;
+      background-color: #ffffff;
+      color: rgb(82, 82, 82);
+      transition: all 0.3s ease;
+    }
+    .search-bar input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--primary-color);
+    }
+    .search-bar button {
+      padding: 8px 15px;
+      border: none;
+      background-color:  #ff1a1a;
+      color: white;
+      border-radius: 0 25px 25px 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .search-bar button:hover {
+      background-color: #ff1a1a;
+    }
+
+    .top-navbar .right a {
+      color: var(--text-color);
+      margin-left: 20px;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .top-navbar .right a:hover {
+      color: var(--primary-color);
+    }
+
+    .top-navbar  {
+      background-color: #000;
+      
+      padding: 8px 20px;
+      border: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    .top-navbar  {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 45, 32, 0.4);
+    }
+    .btn {
+     background-color: #ff1a1a ;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(255, 45, 32, 0.3);
+    }
+    .btn:hover {
+      background-color: #ff8400;
+      color: #ffffff;
+      transform: translateY(-3px);
+    }
+
+    .secondary-navbar {
+      background-color: #ffffff;
+      padding: 0.8rem;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      position: sticky;
+      top: 60px;
+      z-index: 999;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    .secondary-navbar a {
+      color: rgba(139, 0, 0, 0.489);
+      text-decoration: none;
+      font-weight: bold;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    .secondary-navbar a:hover {
+      color: var(--primary-color);
+    }
+    .secondary-navbar a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: var(--primary-color);
+      transition: width 0.3s ease;
+    }
+    .secondary-navbar a:hover::after {
+      width: 100%;
+    }
+/* Sidebar */
+.sidebar {
+            background-color: #111;
+            color: white;
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: -280px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            padding-top: 80px;
+            z-index: 1050;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .sidebar.show {
+            left: 0;
+        }
+        
+        .sidebar a {
+            display: block;
+            padding: 15px 25px;
+            color: var(--secondary-text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .sidebar a:hover {
+            color: var(--primary-color);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--primary-color);
+            padding-left: 30px;
+        }
+        
+        .sidebar .search-bar {
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .sidebar .dropdown-menu {
+            background-color: #222;
+            border: none;
+            border-radius: 0;
+            margin-top: 0;
+        }
+        
+        .sidebar .dropdown-item {
+            color: var(--secondary-text);
+            padding: 10px 25px;
+        }
+        
+        .sidebar .dropdown-item:hover {
+            background-color: #333;
+            color: var(--primary-color);
+        }
+        
+        .sidebar .dropdown-toggle::after {
+            float: right;
+            margin-top: 8px;
+        }
+        
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1040;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+    .hamburger {
+      display: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .hamburger:hover {
+      transform: rotate(90deg);
+    }
+
+        
+        .hamburger {
+            display: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .hamburger:hover {
+            transform: rotate(90deg);
+        }
+        
+
+    .hero-section {
+      background-size: cover;
+      background-position: center;
+      height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.3));
+      z-index: 1;
+    }
+
+    .carousel-container {
+      max-width: 90%;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      z-index: 2;
+      width: 80vw;
+      max-width: 47vw;
+      
+    }
+    .carousel-item {
+      transition: transform 0.5s ease;
+    }
+
+    .section-title {
+      margin-top: 2rem;
+      margin-left: 1rem;
+      font-size: 1.8rem;
+      font-weight: bold;
+      position: relative;
+      display: inline-block;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      width: 50px;
+      height: 4px;
+      bottom: -8px;
+      left: 0;
+      background-color: var(--primary-color);
+      border-radius: 2px;
+    }
+
+    .scroll-container {
+      display: flex;
+      gap: 1.5rem;
+      overflow-x: auto;
+      padding: 1.5rem;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+    }
+    .scroll-container::-webkit-scrollbar {
+      height: 8px;
+    }
+    .scroll-container::-webkit-scrollbar-track {
+      background: #333;
+      border-radius: 10px;
+    }
+    .scroll-container::-webkit-scrollbar-thumb {
+      background: var(--primary-color);
+      border-radius: 10px;
+    }
+
+    .game-card {
+      flex: 0 0 auto;
+      width: 220px;
+      background-color: var(--card-bg);
+      color: var(--text-color);
+      border-radius: 15px;
+      overflow: hidden;
+      text-align: center;
+      scroll-snap-align: start;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+    .game-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255,45,32,0));
+      z-index: 1;
+      pointer-events: none;
+    }
+    .game-card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 15px 30px rgba(255, 45, 32, 0.3);
+    }
+    .game-card img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .game-card:hover img {
+      transform: scale(1.1);
+    }
+    .game-card .game-info {
+      padding: 15px;
+      position: relative;
+      z-index: 2;
+    }
+    .game-card .game-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .game-card .game-size {
+      color: var(--secondary-text);
+      font-size: 0.9rem;
+    }
+    .game-card .game-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      font-weight: bold;
+      z-index: 3;
+    }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 1040;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    .overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .load-more {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .load-more-btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(255, 45, 32, 0.3);
+    }
+    .load-more-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(255, 45, 32, 0.4);
+    }
+    .load-more-btn:active {
+      transform: translateY(0);
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0;
+      gap: 10px;
+    }
+    .pagination button {
+      background-color: #333;
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .pagination button:hover {
+      background-color: var(--primary-color);
+      transform: translateY(-3px);
+    }
+    .pagination button.active {
+      background-color: var(--primary-color);
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 992px) {
+      .secondary-navbar {
+        gap: 15px;
+        padding: 0.6rem;
+      }
+      .game-card {
+        width: 180px;
+      }
+    }
+
+    @media (max-width: 768px) {
+            .secondary-navbar, .top-navbar .right, .top-navbar .search-bar {
+                display: none;
+            }
+      .hamburger {
+        display: block;
+      }
+      .sidebar .search-bar {
+        display: block;
+      }
+      .game-card {
+        width: 160px;
+      }
+      .hero-section {
+        height: 350px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .game-card {
+        width: 140px;
+      }
+      .section-title {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* Animation classes */
+    .fade-in {
+      animation: fadeIn 0.5s ease forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide-in {
+      animation: slideIn 0.5s ease forwards;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(-50px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    
+    /* New styles for catalogue section */
+    .catalogue-section {
+    padding: 100px 20px;
+    text-align: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                url('https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center;
+    background-size: cover;
+    position: relative;
+    margin-top: 40px;
+  }
+  
+  .catalogue-content {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .catalogue-title {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: var(--text-color);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  }
+  
+  .catalogue-description {
+    font-size: 1.1rem;
+    color: var(--secondary-text);
+    margin-bottom: 30px;
+    line-height: 1.6;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  }
+  
+  .see-all-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  }
+  
+  .see-all-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(255, 45, 32, 0.3);
+  }
+
+  @media (max-width: 768px) {
+    .catalogue-section {
+      padding: 80px 20px;
+    }
+    .catalogue-title {
+      font-size: 2rem;
+    }
+  }
+
+    /* Footer styles */
+    .main-footer {
+      background-color: #000;
+      color: var(--text-color);
+      padding: 60px 0 30px;
+    }
+    .footer-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    .footer-logo {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      display: block;
+    }
+    .footer-logo span {
+      color: var(--primary-color);
+    }
+    .footer-about {
+      color: var(--secondary-text);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .footer-heading {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      color: var(--text-color);
+      position: relative;
+      padding-bottom: 10px;
+    }
+    .footer-heading::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 40px;
+      height: 2px;
+      background-color: var(--primary-color);
+    }
+    .footer-links {
+      list-style: none;
+      padding: 0;
+    }
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    .footer-links a {
+      color: var(--secondary-text);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .footer-links a:hover {
+      color: var(--primary-color);
+    }
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .social-links a {
+      color: var(--text-color);
+      background-color: #333;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    .social-links a:hover {
+      background-color: var(--primary-color);
+      transform: translateY(-3px);
+    }
+    .footer-bottom {
+      text-align: center;
+      padding-top: 30px;
+      margin-top: 30px;
+      border-top: 1px solid #333;
+      color: var(--secondary-text);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .footer-container {
+        grid-template-columns: 1fr 1fr;
+      }
+      .catalogue-title {
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .footer-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-navbar">
+    <div class="logo animate__animated animate__fadeIn">Game<span>Tech</span></div>
+    <div class="search-bar animate__animated animate__fadeIn">
+      <input type="text" placeholder="Search for a Game...">
+      <button><i class="fas fa-search"></i></button>
+    </div>
+    <div class="hamburger animate__animated animate__fadeIn" onclick="toggleSidebar()">
+      <i class="fas fa-bars"></i>
+    </div>
+    <div class="right d-flex align-items-center animate__animated animate__fadeIn">
+      <a href="#">Home</a>
+      <a href="#">Contact us</a>
+      <a href="#">Request Games</a>
+      <a href="#" class="btn">Game Tracker</a>
+    </div>
+  </div>
+
+  <div class="secondary-navbar animate__animated animate__fadeInDown">
+    <a href="#">Popular Games</a>
+    <a href="#">Top Rated</a>
+    <a href="All games.html">All Games</a>
+    <div class="dropdown">
+      <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">Categories</a>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Action</a></li>
+        <li><a class="dropdown-item" href="#">Adventure</a></li>
+        <li><a class="dropdown-item" href="#">RPG</a></li>
+        <li><a class="dropdown-item" href="#">Shooter</a></li>
+      </ul>
+    </div>
+    <a href="#">Latest Releases</a>
+  </div>
+
+  <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+  <div class="sidebar" id="sidebar">
+    <a href="#" class="logo">Game<span>Tech</span></a>
+    <div class="search-bar">
+        <input type="text" placeholder="Search for a Game...">
+        <button><i class="fas fa-search"></i></button>
+    </div>
+    
+    <a href="#"><i class="fas fa-fire"></i> Popular Games</a>
+    <a href="#"><i class="fas fa-star"></i> Top Rated</a>
+    <a href="All games.html"><i class="fas fa-th-list"></i> All Games</a>
+    
+    <!-- Categories Dropdown -->
+    <div class="dropdown">
+        <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+            <i class="fas fa-list"></i> Categories
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Adventure</a></li>
+            <li><a class="dropdown-item" href="#">RPG</a></li>
+            <li><a class="dropdown-item" href="#">Shooter</a></li>
+            <li><a class="dropdown-item" href="#">Strategy</a></li>
+            <li><a class="dropdown-item" href="#">Sports</a></li>
+        </ul>
+    </div>
+    
+    <a href="#"><i class="fas fa-calendar-alt"></i> Latest Releases</a>
+</div>
+
+  <section class="hero-section" id="heroSection">
+    <div class="carousel-container">
+      <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="12747.jpg" class="d-block w-100" alt="Game Banner">
+          </div>
+          <div class="carousel-item">
+            <img src="bluder.avif" class="d-block w-100" alt="Game Banner">
+          </div>
+          <div class="carousel-item">
+            <img src="As shadows.jpg" class="d-block w-100" alt="Game Banner">
+          </div>
+          <div class="carousel-item">
+            <img src="inzoi-og-image-1_rjm3.1200.jpg.webp" class="d-block w-100" alt="Game Banner">
+          </div>
+          
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <h3 class="section-title slide-in">Trending Now</h3>
+  <div class="scroll-container" id="trendingContainer"></div>
+  <div class="load-more">
+    <button class="load-more-btn pulse" onclick="loadMoreGames('trendingContainer')">Load More</button>
+  </div>
+
+  <h3 class="section-title slide-in">Recommended For You</h3>
+  <div class="scroll-container" id="recommendedContainer"></div>
+  <div class="load-more">
+    <button class="load-more-btn pulse" onclick="loadMoreGames('recommendedContainer')">Load More</button>
+  </div>
+
+  <!-- NEW SECTION - Add this right here -->
+<h3 class="section-title slide-in">Most Downloaded Games</h3>
+<div class="scroll-container" id="mostDownloadedContainer"></div>
+<div class="load-more">
+  <button class="load-more-btn pulse" onclick="loadMoreGames('mostDownloadedContainer')">Load More</button>
+</div>
+
+
+  <div class="pagination">
+    <button onclick="changePage(1)" class="active">1</button>
+    <button onclick="changePage(2)">2</button>
+    <button onclick="changePage(3)">3</button>
+    <button onclick="changePage(4)">4</button>
+  </div>
+
+   <!-- Add this just before the footer -->
+   <section class="catalogue-section animate__animated animate__fadeIn">
+    <div class="catalogue-content">
+      <h2 class="catalogue-title">Explore our catalogue</h2>
+      <p class="catalogue-description">
+        There are thousands of games waiting for you to explore. Browse by genre, features, price, and more to find your next favorite game.
+      </p>
+      <a href="All games.html" class="see-all-btn">See all games</a>
+    </div>
+  </section>
+
+  <!-- Add this footer at the end -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <a href="#" class="footer-logo">Game<span>Tech</span></a>
+        <p class="footer-about">
+          Your ultimate destination for discovering, tracking, and exploring the world of gaming. We bring you the latest news, reviews, and updates.
+        </p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+          <a href="#"><i class="fab fa-discord"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-col">
+        <h3 class="footer-heading">Categories</h3>
+        <ul class="footer-links">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Adventure</a></li>
+          <li><a href="#">RPG</a></li>
+          <li><a href="#">Shooter</a></li>
+          <li><a href="#">Strategy</a></li>
+          <li><a href="#">Sports</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h3 class="footer-heading">Platforms</h3>
+        <ul class="footer-links">
+          <li><a href="#">PC</a></li>
+          <li><a href="#">PlayStation</a></li>
+          <li><a href="#">Xbox</a></li>
+          <li><a href="#">Nintendo</a></li>
+          <li><a href="#">Mobile</a></li>
+          <li><a href="#">VR</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h3 class="footer-heading">Company</h3>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      &copy; 2025 GameTech. All rights reserved. All trademarks are property of their respective owners.
+    </div>
+  </footer>
+
+  <script>
+    // Background images for hero section
+    const backgrounds = [
+      'url(bg.jpg)',
+      'url(22000.jpg)',
+      'url(2087011.webp)',
+      'url(wp6736059.webp)',
+      'url(21873.jpg)',
+      'url(bg.jpg)'
+      
+    ];
+    document.getElementById('heroSection').style.backgroundImage = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+
+   // Toggle sidebar function
+   function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('show');
+            document.getElementById('overlay').classList.toggle('show');
+            document.body.classList.toggle('no-scroll');
+        }
+
+        // Close sidebar when clicking on dropdown items
+        document.querySelectorAll('.sidebar .dropdown-item').forEach(item => {
+            item.addEventListener('click', () => {
+                toggleSidebar();
+            });
+        });
+
+        // Initialize the page when loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide loading screen after 1 second
+            setTimeout(function() {
+                document.getElementById('loading-screen').classList.add('fade-out');
+                setTimeout(function() {
+                    document.getElementById('loading-screen').style.display = 'none';
+                }, 500);
+            }, 1000);
+            
+            // Initialize Bootstrap dropdowns
+            var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
+            var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
+                return new bootstrap.Dropdown(dropdownToggleEl)
+            });
+        });
+
+    // Game data with more variety
+    const gameData = [
+      { title: "Elden Ring", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg", size: "50 GB", badge: "HOT" },
+      { title: "God of War", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1593500/header.jpg", size: "70 GB", badge: "NEW" },
+      { title: "Cyberpunk 2077", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg", size: "65 GB", badge: "" },
+      { title: "Red Dead Redemption 2", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/header.jpg", size: "120 GB", badge: "BEST" },
+      { title: "The Witcher 3", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg", size: "45 GB", badge: "" },
+      { title: "Horizon Zero Dawn", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1151640/header.jpg", size: "70 GB", badge: "" },
+      { title: "Assassin's Creed Valhalla", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/2208920/header.jpg", size: "110 GB", badge: "" },
+      { title: "Call of Duty: Warzone", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1985810/header.jpg", size: "95 GB", badge: "POPULAR" },
+      { title: "Destiny 2", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1085660/header.jpg", size: "105 GB", badge: "" },
+      { title: "Apex Legends", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1172470/header.jpg", size: "75 GB", badge: "FREE" },
+      { title: "Resident Evil Village", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1196590/header.jpg", size: "35 GB", badge: "" },
+      { title: "Forza Horizon 5", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1551360/header.jpg", size: "110 GB", badge: "" },
+      { title: "Halo Infinite", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1240440/header.jpg", size: "65 GB", badge: "" },
+      { title: "FIFA 23", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1811260/header.jpg", size: "50 GB", badge: "" },
+      { title: "Star Wars Jedi: Survivor", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1774580/header.jpg", size: "130 GB", badge: "NEW" },
+      { title: "Dead Space Remake", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1693980/header.jpg", size: "50 GB", badge: "" },
+      { title: "Hogwarts Legacy", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/990080/header.jpg", size: "85 GB", badge: "HOT" },
+      { title: "The Last of Us Part I", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1888930/header.jpg", size: "100 GB", badge: "" },
+      { title: "Atomic Heart", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/668580/header.jpg", size: "90 GB", badge: "" },
+      { title: "Diablo IV", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/2344520/header.jpg", size: "85 GB", badge: "NEW" },
+      { title: "Final Fantasy VII Remake", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1466860/header.jpg", size: "100 GB", badge: "" },
+      { title: "Monster Hunter Rise", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1446780/header.jpg", size: "30 GB", badge: "" },
+      { title: "Genshin Impact", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1524210/header.jpg", size: "20 GB", badge: "FREE" },
+      { title: "Minecraft Dungeons", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/750256/header.jpg", size: "5 GB", badge: "" },
+      { title: "ARK: Survival Evolved", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/346110/header.jpg", size: "60 GB", badge: "" },
+      { title: "Fall Guys", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1097150/header.jpg", size: "20 GB", badge: "FREE" },
+      { title: "Among Us", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/945360/header.jpg", size: "1 GB", badge: "" },
+      { title: "Stardew Valley", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/413150/header.jpg", size: "500 MB", badge: "" },
+      { title: "Terraria", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg", size: "200 MB", badge: "" },
+      { title: "The Sims 4", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1222670/header.jpg", size: "50 GB", badge: "" },
+      { title: "Roblox", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/431960/header.jpg", size: "1 GB", badge: "FREE" },
+      { title: "World of Warcraft", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/244760/header.jpg", size: "100 GB", badge: "" },
+      { title: "Overwatch 2", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/111300/header.jpg", size: "30 GB", badge: "FREE" },
+      { title: "Fallout 76", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1151340/header.jpg", size: "80 GB", badge: "" },
+      { title: "ARK II", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1113410/header.jpg", size: "60 GB", badge: "" },
+      { title: "Minecraft", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1672970/header.jpg", size: "1.5 GB", badge: "BEST" },
+    { title: "Fortnite", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/2057910/header.jpg", size: "35 GB", badge: "FREE" },
+    { title: "Grand Theft Auto V", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg", size: "110 GB", badge: "" },
+    { title: "Counter-Strike 2", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg", size: "35 GB", badge: "POPULAR" },
+    { title: "Valorant", image: "https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/blt6a3e449fed7e0e8b/5eb26f54402b8b4d13a56656/V_AGENTS_587x900_Phx.png", size: "25 GB", badge: "FREE" },
+    { title: "League of Legends", image: "https://cdn1.epicgames.com/salesEvent/salesEvent/EGS_LeagueofLegends_RiotGames_S1_2560x1440-ee500721c06da3ec1e5535a88588c77f", size: "12 GB", badge: "" },
+    { title: "Apex Legends", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1172470/header.jpg", size: "75 GB", badge: "FREE" },
+    { title: "Call of Duty: Warzone", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1985810/header.jpg", size: "95 GB", badge: "POPULAR" },
+    { title: "Dota 2", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg", size: "50 GB", badge: "" },
+    { title: "PUBG: Battlegrounds", image: "https://cdn.cloudflare.steamstatic.com/steam/apps/578080/header.jpg", size: "40 GB", badge: "" },
+    
+    ];
+
+    // Track loaded games for each container
+    const loadedGames = {
+    trendingContainer: 0,
+    recommendedContainer: 0,
+    mostDownloadedContainer: 0
+  };
+
+    // Function to create game card HTML
+    function createGameCard(game) {
+      const badge = game.badge ? `<span class="game-badge">${game.badge}</span>` : '';
+      return `
+        <div class="game-card fade-in">
+          ${badge}
+          <img src="${game.image}" alt="${game.title}" />
+          <div class="game-info">
+            <div class="game-title">${game.title}</div>
+            <div class="game-size">${game.size}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Function to populate initial games (5 per container)
+    function populateInitialGames(containerId, startIdx) {
+      const container = document.getElementById(containerId);
+      const gamesToShow = gameData.slice(startIdx, startIdx + 6);
+      
+      gamesToShow.forEach(game => {
+        container.innerHTML += createGameCard(game);
+      });
+      
+      loadedGames[containerId] = 6; // Track that we've loaded 5 games
+    }
+
+    // Function to load more games
+    function loadMoreGames(containerId) {
+      const container = document.getElementById(containerId);
+      const startIdx = containerId === 'trendingContainer' ? loadedGames.trendingContainer : loadedGames.recommendedContainer + 10;
+      const endIdx = startIdx + 6;
+      
+      // Get next 5 games
+      const nextGames = gameData.slice(startIdx, endIdx);
+
+      
+      
+      // Add games with animation
+      nextGames.forEach((game, index) => {
+        setTimeout(() => {
+          container.innerHTML += createGameCard(game);
+        }, index * 100);
+      });
+      
+      // Update loaded games count
+      loadedGames[containerId] += 6;
+      
+      // Smooth scroll to show new games
+      setTimeout(() => {
+        container.scrollBy({
+          left: 300,
+          behavior: 'smooth'
+        });
+      }, 500);
+    }
+
+    // Pagination function
+    function changePage(pageNum) {
+      // Remove active class from all buttons
+      document.querySelectorAll('.pagination button').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Add active class to clicked button
+      event.target.classList.add('active');
+      
+      // Here you would typically make an API call to get the page data
+      // For demo, we'll just show an alert
+      alert(`Loading page ${pageNum}...`);
+    }
+
+    // Initialize the page
+    window.onload = function() {
+      // Load initial games
+      populateInitialGames('trendingContainer', 0);
+      populateInitialGames('recommendedContainer', 5);
+      populateInitialGames('mostDownloadedContainer', 35); // Start from index 15 in gameData
+      
+      
+      // Add scroll event to load more games when scrolling
+      const containers = document.querySelectorAll('.scroll-container');
+      containers.forEach(container => {
+        container.addEventListener('scroll', function() {
+          if (this.scrollLeft + this.clientWidth >= this.scrollWidth - 100) {
+            const containerId = this.id;
+            loadMoreGames(containerId);
+          }
+        });
+      });
+      
+      // Add animation to carousel items
+      const carouselItems = document.querySelectorAll('.carousel-item');
+      carouselItems.forEach((item, index) => {
+        setTimeout(() => {
+          item.classList.add('animate__animated', 'animate__fadeIn');
+        }, index * 300);
+      });
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

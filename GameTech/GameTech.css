@@ -1,0 +1,29 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.hero-section {
+    background-image: url('https://your-image-link.com/destiny.jpg'); /* رابط الصورة هنا */
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+}
+
+.hero-title {
+    font-size: 3rem;
+}
+
+.card {
+    margin: 10px;
+}
+
+#game-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
