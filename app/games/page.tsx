@@ -245,9 +245,12 @@ export default function AllGamesPage() {
       <FilterSection
         title="Release Year"
         options={yearRanges.map((y) => y.label)}
-        selected={yearRanges.find((y) => y.id === selectedYear)?.label}
-        onChange={(val) => {
+        selected={
+          yearRanges.find((y) => y.id === selectedYear)?.label || ""
+        }
+       onChange={(val) => {
           const selected = yearRanges.find((y) => y.label === val)
+          if (!selected) return
           handleFilterChange("year", selected.id)
         }}
       />
