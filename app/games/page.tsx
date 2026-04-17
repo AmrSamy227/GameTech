@@ -209,7 +209,7 @@ export default function AllGamesPage() {
             key={opt}
             onClick={() => onChange(opt)}
             className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-              selected === opt || selected === opt.id
+              selected === opt
                 ? "bg-red-600 text-white"
                 : "bg-[#333] text-gray-300 hover:bg-[#444]"
             }`}
