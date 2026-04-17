@@ -172,7 +172,7 @@ export default function AllGamesPage() {
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
 
   const getPageNumbers = () => {
-    const pages = []
+    const pages: number[] = []
     const maxPagesToShow = 5
 
     if (totalPages <= maxPagesToShow) {
