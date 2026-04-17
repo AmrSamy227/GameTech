@@ -532,15 +532,15 @@ const finalBackground =
       <div className="p-6 relative z-10">
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-3">
-            {currentSeries?.logo ? (
-              <Image
-                src={currentSeries.logo!}
-                alt={currentSeries.name!}
-                width={40}
-                height={40}
-                className="rounded"
-              />
-            ) : (
+           {currentSeries?.image ? (
+                  <Image
+                    src={currentSeries.image}
+                    alt={currentSeries.name}
+                    width={40}
+                    height={40}
+                    className="rounded"
+                  />
+                ) : (
               <div className="w-10 h-10 bg-white rounded flex items-center justify-center overflow-hidden">
                 {!logoError ? (
                   <img
