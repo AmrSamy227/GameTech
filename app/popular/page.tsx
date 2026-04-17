@@ -27,22 +27,26 @@ export default function PopularGames() {
     { label: "2021 - 2025", min: 2021, max: 2025 },
   ];
 
-  // 🧩 Filter games by selected range
+  // 🧩 Filter games by selected range (FIXED HERE)
   const filteredGames =
     selectedRange === "All"
       ? popularGames
       : popularGames.filter((game) => {
           const range = yearRanges.find((r) => r.label === selectedRange);
-          return game.release_year >= range.min && game.release_year <= range.max;
+
+          if (!range) return true; // ✅ safety guard (prevents TS + runtime crash)
+
+          return (
+            game.release_year >= range.min &&
+            game.release_year <= range.max
+          );
         });
 
   return (
     <div className="min-h-screen bg-[#1c1c1c] text-white">
       {/* HERO SECTION */}
       <section className="relative w-full">
-        {/* Image Container */}
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
-          {/* Background Image */}
           <Image
             src="assets/1763051489619.webp"
             alt="Popular Games"
@@ -51,15 +55,14 @@ export default function PopularGames() {
             priority
           />
 
-          {/* Gradient Overlay - Same as Home Page */}
-          <div 
+          <div
             className="absolute inset-0"
             style={{
-              background: "linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(28,28,28,0.95))",
+              background:
+                "linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(28,28,28,0.95))",
             }}
           />
 
-          {/* Text Content for Desktop */}
           <div className="hidden md:flex absolute inset-0 items-center px-6 md:px-12 z-10">
             <div className="max-w-[700px]">
               <motion.h1
@@ -70,6 +73,7 @@ export default function PopularGames() {
               >
                 Popular Games
               </motion.h1>
+
               <motion.p
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -81,11 +85,9 @@ export default function PopularGames() {
             </div>
           </div>
 
-          {/* Bottom fade to content area */}
           <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#1c1c1c] to-transparent pointer-events-none" />
         </div>
 
-        {/* Text below image for Mobile */}
         <div className="md:hidden bg-[#1c1c1c] px-6 py-6">
           <motion.h1
             initial={{ opacity: 0, x: -40 }}
@@ -95,6 +97,7 @@ export default function PopularGames() {
           >
             Popular Games
           </motion.h1>
+
           <motion.p
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
@@ -106,13 +109,13 @@ export default function PopularGames() {
         </div>
       </section>
 
-      {/* 🕹️ MAIN CONTENT */}
+      {/* MAIN CONTENT */}
       <div className="max-w-[1400px] mx-auto py-12 px-4 sm:px-8">
         <p className="text-gray-400 mb-8 text-lg">
           Showing {filteredGames.length} popular games
         </p>
 
-        {/* 🎮 Year Filter Buttons */}
+        {/* FILTER BUTTONS */}
         <div className="flex flex-wrap gap-3 mb-10">
           {yearRanges.map((range) => (
             <button
@@ -129,7 +132,7 @@ export default function PopularGames() {
           ))}
         </div>
 
-        {/* 🧩 Game Grid */}
+        {/* GRID */}
         {filteredGames.length === 0 ? (
           <div className="text-center py-20">
             <h3 className="text-2xl font-bold mb-4 text-white">
