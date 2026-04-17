@@ -47,10 +47,16 @@ export default function TopRated() {
   ];
 
   // 🧠 Unique Developers
-  const developers = [
-    "All",
-    ...new Set(gamesLibrary.map((g) => g.developer).filter(Boolean)),
-  ];
+ const developers = [
+  "All",
+  ...new Set(
+    gamesLibrary
+      .flatMap((g) =>
+        Array.isArray(g.developer) ? g.developer : [g.developer]
+      )
+      .filter(Boolean)
+  ),
+];
 
   // 🕹️ Filter Logic
   const filteredGames = games.filter((game) => {
