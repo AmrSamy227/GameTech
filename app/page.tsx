@@ -25,7 +25,7 @@ export default function Home() {
   const mostDownloadedGames = gamesLibrary.slice(16, 24);
 
   // --- Featured Games (Hero Carousel) ---
-  const defaultFeaturedIds = [1, 2, 3, 4, 5]; // replace with actual IDs
+  const defaultFeaturedIds = ["1", "2", "3", "4", "5"];// replace with actual IDs
   const [featuredGames, setFeaturedGames] = useState(() =>
     gamesLibrary.filter((game) => defaultFeaturedIds.includes(game.id))
   );
