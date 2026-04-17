@@ -623,15 +623,15 @@ const finalBackground =
             {/* Header with horizontal padding (px-4) applied only to content */}
             <div className="flex justify-between items-center mb-4 px-4">
                 <div className="flex items-center gap-3">
-                    {currentSeries?.logo ? (
+                    {currentSeries?.image ? (
                         <Image
-                            src={currentSeries.logo}
-                            alt={currentSeries.name}
-                            width={32}
-                            height={32}
-                            className="rounded"
+                          src={currentSeries.image}
+                          alt={currentSeries.name}
+                          width={40}
+                          height={40}
+                          className="rounded"
                         />
-                    ) : (
+                      ) : (
                         <div className="w-8 h-8 bg-white rounded flex items-center justify-center overflow-hidden">
                             {!logoError ? (
                                 <img
